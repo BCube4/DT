@@ -1,0 +1,249 @@
+/* Общие стили для центрирования и визуального оформления */
+.header-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.input-container {
+    max-width: 20%; /* Устанавливает максимальную ширину контейнера ввода */
+    margin-left: 10px; /* Выравнивает контейнер ввода слева */
+    position: relative; /* Позволяет абсолютно позиционированным элементам внутри быть относительно этого контейнера */
+}
+
+.input-group {
+    width: 100%; /* Заполняет полную ширину своего контейнера */
+    margin-bottom: 0; /* Убирает отступ снизу */
+}
+
+/* Стили для выпадающего списка результатов */
+#results {
+    display: none; /* Скрывается по умолчанию */
+    position: absolute;
+    width: 100%;
+    top: 100%;
+    left: 0;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0px 4px 6px rgba(0,0,0,0.1);
+    z-index: 1000; /* Гарантирует, что выпадающий список будет поверх других элементов */
+}
+
+.list-group-item {
+    text-align: left; /* Выравнивает текст элементов списка по левому краю */
+    padding: 10px; /* Добавляет внутренние отступы */
+    width: 100%; /* Заполняет полную ширину своего контейнера */
+    cursor: pointer; /* Указывает, что элемент можно нажать */
+}
+
+.file-select-title {
+    margin-left: 10px; /* Добавляет отступ слева для заголовка */
+    margin-bottom: 5px; /* Добавляет небольшой отступ снизу */
+    font-size: 16px; /* Устанавливает размер шрифта */
+    font-weight: bold; /* Делает текст заголовка жирным */
+}
+
+/* Стилизация элемента статуса */
+#status {
+    position: absolute; /* Абсолютное позиционирование внутри контейнера .input-container */
+    top: 100%; /* Позиционирует непосредственно под input-элементом */
+    left: 3%; /* Небольшой отступ слева для выравнивания */
+    width: 94%; /* Ширина меньше, чем у input-container для визуального разделения */
+    color: red; /* Цвет текста для сообщений об ошибке */
+    font-size: small; /* Меньший размер шрифта для статусных сообщений */
+    margin-top: -5px; /* Небольшой отрицательный отступ сверху для компактности */
+    z-index: 10; /* Ниже, чем список результатов, чтобы текст был под ним */
+}
+
+/* Стилизация контейнера таблицы */
+#tableContainer {
+    width: calc(100% - 40px); /* Ширина меньше на 40px, чем 100% для включения внешних отступов */
+    margin-left: 20px;
+    margin-right: 20px;
+    display: none; /* Скрыт до активации */
+}
+
+/* Стилизация заголовка таблицы */
+#tableTitle {
+    text-align: left;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#toggleButton {
+    background-color: #0d6efd; /* Синий фон, как у Bootstrap кнопок */
+    border-color: #0d6efd;
+    color: white;
+}
+
+table .independent-color {
+    background-color: #0d6efd; /* Синий цвет для независимых переменных */
+    color: white
+}
+
+table .dependent-color {
+    background-color: #fe807c; /* Светло-красный цвет для зависимых переменных */
+}
+
+#ellipsisRow td {
+    font-size: 40px !important; /* Принудительное применение размера шрифта */
+    width: 100%;
+    text-align: center;
+}
+
+/* Стили таблицы */
+table {
+    width: 100%; /* Ширина таблицы соответствует ширине контейнера */
+    border-collapse: collapse; /* Убирает двойные границы между ячейками */
+    margin-top: 10px; /* Отступ сверху */
+}
+
+th, td {
+    border: 1px solid #ccc; /* Оформление границ ячеек */
+    padding: 8px; /* Отступы внутри ячеек */
+    text-align: left; /* Выравнивание текста по левому краю */
+}
+
+th {
+    background-color: #f2f2f2; /* Цвет фона для заголовков таблицы */
+}
+
+
+/* Стилизация таблицы для полной ширины с горизонтальным скроллом */
+#dataTable {
+    overflow-x: auto;  // Включает горизонтальную прокрутку
+    white-space: nowrap;  // Убирает перенос строк внутри таблицы
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;  // Убирает двойные границы между ячейками
+}
+
+th, td {
+    padding: 8px;
+    border: 1px solid #ccc;
+    text-align: center;
+    min-width: 50px;  // Минимальная ширина каждой ячейки
+    max-width: 150px;  // Максимальная ширина каждой ячейки
+    overflow: hidden;  // Прячет текст, выходящий за границы ячейки
+    text-overflow: ellipsis;  // Добавляет многоточие, если текст не помещается
+}
+
+.hiddenRow {
+    display: none;  // По умолчанию скрытые строки
+}
+
+
+
+
+
+#dataAnalysisContainers {
+    margin-top: 20px;
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+#regressionFormulaContainer {
+    background-color: #fff;
+    padding: 10px;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #000;
+    text-align: left;
+    width: 100%;
+}
+
+#regressionFormulaHeader {
+    margin: 0 0 10px 0;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: left;
+}
+
+#regressionFormula {
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    align-items: flex-start;
+}
+
+.col-md-6 {
+    background-color: #fff;
+    padding: 10px;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: calc(50% - 20px);
+    vertical-align: top;
+    margin-bottom: 20px;
+    text-align: center;
+    height: auto;
+    margin-top: 0;
+}
+
+.content-container {
+    position: relative;
+    width: 100%;
+    padding-top: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#gaugeChart {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.table-container {
+    max-height: 300px; /* Устанавливаем максимальную высоту контейнера */
+    overflow-y: auto; /* Включаем вертикальную прокрутку */
+    position: relative; /* Для обеспечения работы sticky */
+    margin: 0; /* Убираем отступ сверху */
+}
+
+.table-scroll {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0;
+    padding: 0;
+}
+
+.table-scroll thead {
+    background-color: #f9f9f9;
+    position: sticky; /* Фиксируем заголовки таблицы */
+    top: 0;
+    z-index: 1;
+}
+
+.table-scroll th, .table-scroll td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+    margin: 0;
+}
+
+.table-scroll tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+
+
+
