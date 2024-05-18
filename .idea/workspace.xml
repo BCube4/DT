@@ -4,35 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6fef7a5a-dbc9-4a40-b0ce-2116ffd866e5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/DT.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/1app.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apper.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data_processor.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/parametrs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/regression_model.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/search_app.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/search_service.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/validation_service.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/styles.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/js/dataAnalysis.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/js/feature_importances.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/js/gauge_chart.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/js/quarterly_table.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/js/regression.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/js/regression_formula.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/js/search.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/about.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/data_transformer.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/regression_analysis.py" afterDir="false" />
-    </list>
+    <list default="true" id="6fef7a5a-dbc9-4a40-b0ce-2116ffd866e5" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
