@@ -47,26 +47,51 @@
                 </div>
                 <!-- Контейнер для спидометра статистики -->
                 <div class="col-md-6" id="gaugeContainer">
-                    <h2>Спидометр статистики</h2>
+                    <h2>Динамический статистический индикатор</h2>
                     <div class="content-container">
                         <canvas id="gaugeChart"></canvas>
                     </div>
                 </div>
                 <!-- Контейнер для списка коэффициентов важности -->
                 <div class="col-md-6" id="coefficientsContainer">
-                    <h2>Коэффициенты важности признаков</h2>
+                    <h2>Анализ значимости факторов</h2>
                     <div class="content-container" id="coefficientsList"></div>
+                    <table id="featureImportancesTable" class="table table-scroll">
+                        <thead>
+                            <tr><th>Признак</th><th>Важность</th></tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
                 </div>
             </div>
         </div>
+        <!-- Контейнер для ввода количества дней и кнопки получения прогноза -->
+    <!-- Контейнер для ввода количества дней и кнопки получения прогноза -->
+    <div id="predictionInputContainer">
+        <input type="number" id="daysInput" class="form-control" min="1" step="1" placeholder="Введите количество дней" />
+        <button id="getPredictionButton" class="btn btn-primary">Получить прогноз</button>
     </div>
+    <!-- Контейнер для таблицы прогноза -->
+    <div id="predictionTableContainer" style="display: none; margin-top: 20px;">
+        <h3 id="predictionTableTitle"></h3>
+        <div class="predictiontable-container">
+            <table id="predictionTable" class="table table-scroll">
+                <thead>
+                    <tr><th>Дата</th><th>Значение</th></tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
 
 
     <!-- Вставка JavaScript файлов -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script src="/static/js/regression_formula.js" ></script>
+    <script src="/static/js/regression_formula.js" ></script>
     <script src="/static/js/gauge_chart.js" ></script>
     <script src="/static/js/feature_importances.js" ></script>
+    <script src="/static/js/prediction.js"></script>
 </body>
 </html>

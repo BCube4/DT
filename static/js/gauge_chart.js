@@ -9,8 +9,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     ctx = canvas.getContext('2d');
-    resizeCanvas();
 
+    // Убедимся, что resizeCanvas вызывается после полной загрузки страницы
+    window.addEventListener('load', resizeCanvas);
     window.addEventListener('resize', resizeCanvas);
 
     function resizeCanvas() {
@@ -23,7 +24,6 @@ document.addEventListener('DOMContentLoaded', function() {
         radius = Math.min(centerX, centerY) * 0.8;
         tickWidth = radius * 0.1;
 
-        // Если есть последние данные, перерисуем спидометр
         if (lastGaugeData) {
             drawGauge(lastGaugeData.predictedValue, lastGaugeData.mean, lastGaugeData.std_dev);
         }
@@ -34,17 +34,15 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error("Invalid data received:", data);
             return;
         }
-        lastGaugeData = data;  // Сохраняем данные
+        lastGaugeData = data;
         drawGauge(data.predictedValue, data.mean, data.std_dev);
     });
 
     $(document).on('clearData', function() {
         console.log("Attempting to clear canvas with context:", ctx);
         clearCanvas();
-        lastGaugeData = null;  // Очистка последних данных
+        lastGaugeData = null;
     });
-
-    resizeCanvas(); // Вызов функции resizeCanvas при загрузке страницы
 });
 
 function drawGauge(predictedValue, mean, std_dev) {
@@ -53,7 +51,6 @@ function drawGauge(predictedValue, mean, std_dev) {
         return;
     }
 
-    // Проверяем, что все значения переданы
     if (predictedValue === undefined || mean === undefined || std_dev === undefined) {
         console.error("Missing data for gauge rendering");
         return;
@@ -85,7 +82,7 @@ function drawGauge(predictedValue, mean, std_dev) {
     drawLabels(mean, std_dev);
     drawPointer(predictedValue, mean, std_dev);
     drawValueAbove(mean);
-    drawPredictedValueBelow(predictedValue); // Отображаем значение predictedValue внизу
+    drawPredictedValueBelow(predictedValue);
 }
 
 function clearCanvas() {
@@ -174,6 +171,6 @@ function drawPredictedValueBelow(predictedValue) {
     }
     ctx.fillStyle = 'black';
     ctx.textAlign = 'center';
-    const offset = 30; // отступ от центра вниз
+    const offset = 30;
     ctx.fillText(`${Number(predictedValue).toFixed(1)}`, centerX, centerY + offset);
 }

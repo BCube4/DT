@@ -1,4 +1,6 @@
 $(document).ready(function() {
+    var lastFilename = null;
+
     $('#loadButton').click(function() {
         clearOldData();  // Очистка данных перед каждым запросом
         var filename = $('#searchBox').val().trim();
@@ -10,9 +12,10 @@ $(document).ready(function() {
 
         $.post('/validate', { filename: filename }, function(response) {
             if (response.status === 'success') {
-                $.post('/analyze', { session_id: response.session_id }, function(response) {
+                lastFilename = filename;  // Сохраняем filename
+                $.post('/analyze', { filename: filename }, function(response) {
                     displayRegressionFormula(response);
-                    $(document).trigger('analysisSuccess', response);
+                    $(document).trigger('analysisSuccess', { filename: filename, response: response });
                 }).fail(function() {
                     $('#regressionFormula').text('Ошибка анализа данных').css('color', 'red');
                     $(document).trigger('analysisFailed');
@@ -26,48 +29,56 @@ $(document).ready(function() {
             $(document).trigger('analysisFailed');
         });
     });
-});
 
-function clearOldData() {
-    $('#regressionFormula').empty().css('color', '');
-    $(document).trigger('clearData');
-}
-
-function displayRegressionFormula(data) {
-    if (!data || !data.coefficients) {
-        console.error("Invalid or incomplete data received:", data);
-        return;
+    function clearOldData() {
+        $('#regressionFormula').empty().css('color', '');
+        $('#predictionContainer').hide();
+        $('#predictionTableContainer').hide();
+        $(document).trigger('clearData');
     }
-    var dependentVariableName = Object.keys(data.last_day_dependent_vars)[0];
-    var independents = data.last_day_independent_vars;
-    var coefficients = data.coefficients;
-    var predictedValue = 0;
-    var formula = `\\textbf{${dependentVariableName}} =`;
 
-    Object.keys(independents).forEach(function(variable, index) {
-        var coef = coefficients[variable].toFixed(3);
-        var sign = coef >= 0 ? (index > 0 ? ' + ' : ' ') : ' - ';
-        var absCoef = Math.abs(coef).toFixed(3);
-        formula += `${sign}${absCoef} \\cdot \\textbf{${variable}}`;
-        predictedValue += coefficients[variable] * independents[variable];
-    });
+    function displayRegressionFormula(data) {
+        if (!data || !data.coefficients) {
+            console.error("Invalid or incomplete data received:", data);
+            return;
+        }
+        var dependentVariableName = Object.keys(data.last_day_dependent_vars)[0];
+        var independents = data.last_day_independent_vars;
+        var coefficients = data.coefficients;
+        var predictedValue = 0;
+        var formula = `\\textbf{${dependentVariableName}} =`;
 
-    formula += ` = ${predictedValue.toFixed(3)}`;
-    $('#regressionFormula').html(`$$${formula}$$`).css('color', 'black');
-    $('#dataAnalysisContainers').show();
-    MathJax.typesetPromise().then(function() {
-        $('#regressionFormulaContainer').scrollTop(0); // Прокручиваем контейнер вверх
-    }).catch(function(error) {
-        console.log("MathJax processing error:", error);
-    });
+        Object.keys(independents).forEach(function(variable, index) {
+            var coef = coefficients[variable].toFixed(3);
+            var sign = coef >= 0 ? (index > 0 ? ' + ' : ' ') : ' - ';
+            var absCoef = Math.abs(coef).toFixed(3);
+            formula += `${sign}${absCoef} \\cdot \\textbf{${variable}}`;
+            predictedValue += coefficients[variable] * independents[variable];
+        });
 
-    $(document).trigger('displayGauge', {
-        predictedValue: predictedValue,
-        mean: data.mean,
-        std_dev: data.std_dev
-    });
+        formula += ` = ${predictedValue.toFixed(3)}`;
+        $('#regressionFormula').html(`$$${formula}$$`).css('color', 'black');
+        $('#dataAnalysisContainers').show();
+        MathJax.typesetPromise().then(function() {
+            $('#regressionFormulaContainer').scrollTop(0); // Прокручиваем контейнер вверх
+        }).catch(function(error) {
+            console.log("MathJax processing error:", error);
+        });
 
-    $(document).trigger('displayFeatureImportances', {
-        featureImportances: data.feature_importances
-    });
-}
+        $(document).trigger('displayGauge', {
+            predictedValue: predictedValue,
+            mean: data.mean,
+            std_dev: data.std_dev
+        });
+
+        $(document).trigger('displayFeatureImportances', {
+            featureImportances: data.feature_importances
+        });
+
+        // Триггер для отображения ввода прогноза и кнопки
+        $(document).trigger('displayPredictionInputs', {
+            predictions: data.predictions,
+            filename: lastFilename
+        });
+    }
+});

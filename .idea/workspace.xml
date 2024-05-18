@@ -4,9 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6fef7a5a-dbc9-4a40-b0ce-2116ffd866e5" name="Changes" comment="">
+    <list default="true" id="6fef7a5a-dbc9-4a40-b0ce-2116ffd866e5" name="Changes" comment="1805">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Excel/скв-5 — копия (8) — копия.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/css/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/js/dataAnalysis.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/prediction.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/js/feature_importances.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/feature_importances.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/js/gauge_chart.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/gauge_chart.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/js/regression.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/js/regression_formula.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/regression_formula.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -118,6 +125,15 @@
       <option name="presentableId" value="Default" />
       <updated>1715015799081</updated>
     </task>
+    <task id="LOCAL-00001" summary="1805">
+      <option name="closed" value="true" />
+      <created>1716034379407</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1716034379407</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -142,5 +158,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="1805" />
+    <option name="LAST_COMMIT_MESSAGE" value="1805" />
   </component>
 </project>

@@ -212,38 +212,72 @@ th, td {
     height: 100%;
 }
 
-.table-container {
-    max-height: 300px; /* Устанавливаем максимальную высоту контейнера */
-    overflow-y: auto; /* Включаем вертикальную прокрутку */
-    position: relative; /* Для обеспечения работы sticky */
-    margin: 0; /* Убираем отступ сверху */
+#coefficientsList {
+    max-height: 400px; /* Ограничиваем высоту блока */
+    overflow-y: auto; /* Добавляем вертикальную прокрутку, если контент превышает высоту блока */
+    margin-top: 0; /* Убираем ненужный отступ */
+    padding-top: 0; /* Убираем ненужный внутренний отступ */
 }
 
-.table-scroll {
+/* Стилизация таблицы */
+#featureImportancesTable {
     width: 100%;
     border-collapse: collapse;
-    margin: 0;
-    padding: 0;
 }
 
-.table-scroll thead {
-    background-color: #f9f9f9;
-    position: sticky; /* Фиксируем заголовки таблицы */
+/* Фиксированные заголовки таблицы */
+#coefficientsList thead {
+    position: sticky;
     top: 0;
+    background-color: #fff;
     z-index: 1;
 }
 
-.table-scroll th, .table-scroll td {
-    padding: 10px;
+/* Стилизация ячеек */
+#coefficientsList th, #coefficientsList td {
     border: 1px solid #ddd;
+    padding: 8px;
     text-align: left;
-    margin: 0;
 }
 
-.table-scroll tbody tr:nth-child(even) {
+#coefficientsList th {
     background-color: #f2f2f2;
+    font-weight: bold;
 }
 
 
+
+
+
+
+.predictiontable-container {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+/* Новый стиль для контейнера ввода и кнопки */
+#predictionInputContainer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 20px;
+    width: 100%;
+    padding-left: 10px;
+}
+
+#daysInput {
+    width: 200px;
+    margin-right: 10px;
+}
+
+#getPredictionButton {
+    width: 200px;
+}
+
+#predictionTableContainer {
+    width: 300px;
+    text-align: left;
+    margin: 20px 0 0 10px;
+}
 
 
