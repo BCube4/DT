@@ -4,16 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6fef7a5a-dbc9-4a40-b0ce-2116ffd866e5" name="Changes" comment="1805">
+    <list default="true" id="6fef7a5a-dbc9-4a40-b0ce-2116ffd866e5" name="Changes" comment="1805 2247">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/css/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/styles.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/js/dataAnalysis.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/prediction.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/js/feature_importances.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/feature_importances.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/1app.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apper.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_processor.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/parametrs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/regression_model.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/search_app.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/static/js/gauge_chart.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/gauge_chart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/js/regression.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/js/regression_formula.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/regression_formula.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/about.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/result.html" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,18 +31,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "BCube4"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;BCube4&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/BCube4/DT",
-    "accountId": "3d4b54d9-0c96-4fd4-a1b4-7b72c3b8150d"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/BCube4/DT&quot;,
+    &quot;accountId&quot;: &quot;3d4b54d9-0c96-4fd4-a1b4-7b72c3b8150d&quot;
   }
-}]]></component>
+}</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/app.py" root0="FORCE_HIGHLIGHTING" />
   </component>
@@ -133,7 +134,15 @@
       <option name="project" value="LOCAL" />
       <updated>1716034379407</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="1805 2247">
+      <option name="closed" value="true" />
+      <created>1716054449406</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1716054449406</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -161,6 +170,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="1805" />
-    <option name="LAST_COMMIT_MESSAGE" value="1805" />
+    <MESSAGE value="1805 2247" />
+    <option name="LAST_COMMIT_MESSAGE" value="1805 2247" />
   </component>
 </project>

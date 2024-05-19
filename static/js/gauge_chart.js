@@ -11,23 +11,9 @@ document.addEventListener('DOMContentLoaded', function() {
     ctx = canvas.getContext('2d');
 
     // Убедимся, что resizeCanvas вызывается после полной загрузки страницы
-    window.addEventListener('load', resizeCanvas);
-    window.addEventListener('resize', resizeCanvas);
-
-    function resizeCanvas() {
-        const parent = canvas.parentElement;
-        const size = Math.min(parent.clientWidth, parent.clientHeight);
-        canvas.width = size;
-        canvas.height = size;
-        centerX = canvas.width / 2;
-        centerY = canvas.height / 2;
-        radius = Math.min(centerX, centerY) * 0.8;
-        tickWidth = radius * 0.1;
-
-        if (lastGaugeData) {
-            drawGauge(lastGaugeData.predictedValue, lastGaugeData.mean, lastGaugeData.std_dev);
-        }
-    }
+    window.addEventListener('resize', () => {
+        requestAnimationFrame(resizeCanvas);
+    });
 
     $(document).on('displayGauge', function(event, data) {
         if (typeof data.predictedValue !== 'number' || typeof data.mean !== 'number' || typeof data.std_dev !== 'number') {
@@ -43,7 +29,26 @@ document.addEventListener('DOMContentLoaded', function() {
         clearCanvas();
         lastGaugeData = null;
     });
+
+    // Убедимся, что resizeCanvas вызывается после полной загрузки страницы и всех элементов
+    requestAnimationFrame(resizeCanvas);
 });
+
+function resizeCanvas() {
+    const canvas = document.getElementById('gaugeChart');
+    const parent = canvas.parentElement;
+    const size = Math.min(parent.clientWidth, parent.clientHeight);
+    canvas.width = size;
+    canvas.height = size;
+    centerX = canvas.width / 2;
+    centerY = canvas.height / 2;
+    radius = Math.min(centerX, centerY) * 0.8;
+    tickWidth = radius * 0.1;
+
+    if (lastGaugeData) {
+        drawGauge(lastGaugeData.predictedValue, lastGaugeData.mean, lastGaugeData.std_dev);
+    }
+}
 
 function drawGauge(predictedValue, mean, std_dev) {
     if (!ctx) {
