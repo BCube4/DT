@@ -11,21 +11,21 @@ from config import DIRECTORY_LIST_ESP, DEPENDENT_VARIABLES, INDEPENDENT_VARIABLE
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "your_secret_key_here"
 
-
+# Главная страница
 @app.route('/')
 def index():
     return render_template('index.html',
                            dependentVariables=DEPENDENT_VARIABLES,
                            independentVariables=INDEPENDENT_VARIABLES)
 
-
+# Поиск файлов по запросу
 @app.route('/search', methods=['POST'])
 def search():
     query = request.form.get('query', '')
     files = perform_search(query, DIRECTORY_LIST_ESP)
     return jsonify(files)
 
-
+# Валидация и обработка файла
 @app.route('/validate', methods=['POST'])
 def validate():
     filename = request.form.get('filename', '')
@@ -41,7 +41,7 @@ def validate():
     else:
         return jsonify({"status": "error", "message": "Validation failed"})
 
-
+# Анализ данных и предсказание
 @app.route('/analyze', methods=['POST'])
 def analyze_data():
     filename = request.form.get('filename')
@@ -50,7 +50,7 @@ def analyze_data():
 
     days_ahead = int(request.form.get('days_ahead', 1))  # Получаем days_ahead из формы запроса POST
     data_directory = 'temp_data'
-    data_file = os.path.join(data_directory, filename)  # Используем filename
+    data_file = os.path.join(data_directory, filename)
     try:
         with open(data_file, 'r') as f:
             data = json.load(f)
@@ -64,14 +64,17 @@ def analyze_data():
     X = df[INDEPENDENT_VARIABLES]
     y = df[DEPENDENT_VARIABLES[0]]
 
+    # Обучение линейной регрессии
     lr_model = LinearRegression()
     lr_model.fit(X, y)
     coefficients = dict(zip(X.columns, lr_model.coef_))
 
+    # Обучение случайного леса
     rf_model = RandomForestRegressor()
     rf_model.fit(X, y)
     feature_importances = dict(zip(X.columns, rf_model.feature_importances_))
 
+    # Обучение градиентного бустинга
     gb_model = GradientBoostingRegressor()
     gb_model.fit(X, y)
 
@@ -90,12 +93,8 @@ def analyze_data():
         new_data[DEPENDENT_VARIABLES[0]] = pred
 
         # Обновление временных признаков или любых других зависимостей, если применимо
-        # Например, можно обновить временные признаки (если они есть)
         if 'date' in new_data.columns:
             new_data['date'] = pd.to_datetime(new_data['date']) + pd.DateOffset(days=1)
-
-        # Обновление значений независимых переменных, если они зависят от предсказанного значения
-        # В этом примере предполагается, что независимые переменные не зависят от предсказанного значения
 
         X_pred = pd.concat([X_pred, new_data[INDEPENDENT_VARIABLES]], ignore_index=True)
 
@@ -115,7 +114,6 @@ def analyze_data():
         "last_day_independent_vars": last_day_independent_vars,
         "last_day_dependent_vars": last_day_dependent_vars
     })
-
 
 if __name__ == '__main__':
     app.run(debug=True)

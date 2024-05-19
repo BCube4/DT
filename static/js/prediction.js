@@ -1,11 +1,13 @@
 $(document).ready(function() {
     var lastFilename = null;
 
+    // Обработчик события для отображения ввода прогноза
     $(document).on('displayPredictionInputs', function(event, data) {
         lastFilename = data.filename;
         $('#predictionContainer').show();
     });
 
+    // Обработчик нажатия на кнопку получения прогноза
     $('#getPredictionButton').click(function() {
         var days = parseInt($('#daysInput').val(), 10); // Преобразование в целое число
         if (!days || days <= 0) {
@@ -15,17 +17,20 @@ $(document).ready(function() {
         getPredictions(lastFilename, days);
     });
 
+    // Обработчик нажатия клавиши Enter в поле ввода дней
     $('#daysInput').keypress(function(event) {
         if (event.which === 13) { // Проверка нажатия клавиши Enter
             $('#getPredictionButton').click();
         }
     });
 
+    // Обработчик события для очистки данных
     $(document).on('clearData', function() {
         $('#predictionContainer').hide();
         $('#predictionTableContainer').hide();
     });
 
+    // Функция для получения предсказаний
     function getPredictions(filename, days) {
         $.post('/analyze', { filename: filename, days_ahead: days }, function(response) {
             if (response.status === 'success') {
@@ -38,6 +43,7 @@ $(document).ready(function() {
         });
     }
 
+    // Функция для генерации таблицы предсказаний
     function generatePredictionTable(days, predictions) {
         var today = new Date();
         var predictionTableBody = $('#predictionTable tbody');
@@ -66,6 +72,7 @@ $(document).ready(function() {
         }, 1000);
     }
 
+    // Функция для склонения слова "день" в зависимости от числа
     function declensionOfDays(days) {
         if (days % 10 === 1 && days % 100 !== 11) {
             return 'день';

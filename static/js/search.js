@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    // Функция для обновления результатов поиска
     function updateResults(query) {
         $.post('/search', {query: query}, function(data) {
             $('#results').empty();
@@ -16,23 +17,27 @@ $(document).ready(function() {
         });
     }
 
+    // Обработчик для ввода в поисковую строку
     $('#searchBox').on('keypress', function(e) {
-        if (e.which === 13) {
+        if (e.which === 13) {  // Проверка на нажатие Enter
             e.preventDefault();
-            $('#loadButton').click();
+            $('#loadButton').click();  // Клик на кнопку загрузки
         }
     });
 
+    // Обновление результатов при вводе в поисковую строку
     $('#searchBox').on('focus input', function() {
         updateResults($(this).val().trim());
     });
 
+    // Скрытие результатов при клике вне области поиска
     $(document).on('click', function(event) {
         if (!$(event.target).closest('#searchBox, #results').length) {
             $('#results').hide();
         }
     });
 
+    // Обработчик для кнопки загрузки
     $('#loadButton').on('click', function() {
         var filename = $('#searchBox').val().trim();
         if (!filename) {
@@ -49,13 +54,15 @@ $(document).ready(function() {
         $('#results').hide();
     });
 
+    // Обработчик для выбора файла из списка результатов
     $('#results').on('click', '.list-group-item-action', function() {
         var filename = $(this).text();
         $('#searchBox').val(filename);
         $('#results').hide();
     });
 
+    // Обработчик для изменения размера окна
     $(window).on('resize', function() {
-        // Ваша логика для обновления позиции элементов при изменении размера окна, если необходимо
+        // Логика для обновления позиции элементов при изменении размера окна, если необходимо
     });
 });

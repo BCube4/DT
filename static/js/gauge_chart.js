@@ -10,11 +10,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     ctx = canvas.getContext('2d');
 
-    // Убедимся, что resizeCanvas вызывается после полной загрузки страницы
+    // Обновление размера холста при изменении размеров окна
     window.addEventListener('resize', () => {
         requestAnimationFrame(resizeCanvas);
     });
 
+    // Обработчик события для отображения гейджа
     $(document).on('displayGauge', function(event, data) {
         if (typeof data.predictedValue !== 'number' || typeof data.mean !== 'number' || typeof data.std_dev !== 'number') {
             console.error("Invalid data received:", data);
@@ -24,13 +25,13 @@ document.addEventListener('DOMContentLoaded', function() {
         drawGauge(data.predictedValue, data.mean, data.std_dev);
     });
 
+    // Обработчик события для очистки данных
     $(document).on('clearData', function() {
-        console.log("Attempting to clear canvas with context:", ctx);
         clearCanvas();
         lastGaugeData = null;
     });
 
-    // Убедимся, что resizeCanvas вызывается после полной загрузки страницы и всех элементов
+    // Инициализация размера холста после полной загрузки страницы
     requestAnimationFrame(resizeCanvas);
 });
 
@@ -91,7 +92,6 @@ function drawGauge(predictedValue, mean, std_dev) {
 }
 
 function clearCanvas() {
-    console.log("clearCanvas called with ctx:", ctx);
     if (!ctx) {
         console.error("Context not provided in clearCanvas");
         return;

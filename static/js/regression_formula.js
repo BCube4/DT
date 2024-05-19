@@ -1,6 +1,7 @@
 $(document).ready(function() {
     var lastFilename = null;
 
+    // Обработчик нажатия на кнопку загрузки
     $('#loadButton').click(function() {
         clearOldData();  // Очистка данных перед каждым запросом
         var filename = $('#searchBox').val().trim();
@@ -10,9 +11,11 @@ $(document).ready(function() {
             return;
         }
 
+        // Запрос на валидацию файла
         $.post('/validate', { filename: filename }, function(response) {
             if (response.status === 'success') {
-                lastFilename = filename;  // Сохраняем filename
+                lastFilename = filename;  // Сохраняем имя файла
+                // Запрос на анализ данных
                 $.post('/analyze', { filename: filename }, function(response) {
                     displayRegressionFormula(response);
                     $(document).trigger('analysisSuccess', { filename: filename, response: response });
@@ -30,6 +33,7 @@ $(document).ready(function() {
         });
     });
 
+    // Функция для очистки старых данных
     function clearOldData() {
         $('#regressionFormula').empty().css('color', '');
         $('#predictionContainer').hide();
@@ -37,6 +41,7 @@ $(document).ready(function() {
         $(document).trigger('clearData');
     }
 
+    // Функция для отображения формулы регрессии
     function displayRegressionFormula(data) {
         if (!data || !data.coefficients) {
             console.error("Invalid or incomplete data received:", data);
@@ -65,6 +70,7 @@ $(document).ready(function() {
             console.log("MathJax processing error:", error);
         });
 
+        // Триггеры для отображения других элементов
         $(document).trigger('displayGauge', {
             predictedValue: predictedValue,
             mean: data.mean,
@@ -75,7 +81,6 @@ $(document).ready(function() {
             featureImportances: data.feature_importances
         });
 
-        // Триггер для отображения ввода прогноза и кнопки
         $(document).trigger('displayPredictionInputs', {
             predictions: data.predictions,
             filename: lastFilename

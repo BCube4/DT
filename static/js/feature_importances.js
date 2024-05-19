@@ -9,6 +9,7 @@ $(document).ready(function() {
         clearTable();
     });
 
+    // Функция для отображения важности признаков
     function displayFeatureImportances(importances) {
         var sortedImportances = Object.entries(importances).sort((a, b) => b[1] - a[1]);
         var tbody = $('#featureImportancesTable tbody');
@@ -26,10 +27,12 @@ $(document).ready(function() {
         $('#coefficientsContainer').css('padding-top', '0');
     }
 
+    // Функция для очистки таблицы
     function clearTable() {
         $('#featureImportancesTable tbody').empty();
     }
 
+    // Функция для интерполяции цвета на основе значения важности признака
     function interpolateColor(value, min, max) {
         const redStart = 254, greenStart = 128, blueStart = 124; // #fe807c
         const redEnd = 124, greenEnd = 254, blueEnd = 128;       // #7cfe80

@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    // Обработчик нажатия на кнопку загрузки
     $('#loadButton').click(function() {
         $('#status').empty(); // Очистка текста статуса
         $('#dataTable').empty(); // Очистка данных в таблице
@@ -23,6 +24,7 @@ $(document).ready(function() {
         });
     });
 
+    // Функция для отображения данных в таблице
     function displayData(data) {
         $('#dataTable').empty();
         $('#tableTitle').text("Данные за последние 31 день").append('<button id="toggleButton" class="btn btn-primary">Показать больше...</button>');
@@ -54,22 +56,22 @@ $(document).ready(function() {
         });
     }
 
+    // Функция для создания строки таблицы
     function buildRow(key, data, className = '') {
-    let rowClass = className.trim();
-    let keyClass = '';
+        let rowClass = className.trim();
+        let keyClass = '';
 
-    if (independentVariables.includes(key)) {
-        keyClass = 'independent-color';
-    } else if (dependentVariables.includes(key)) {
-        keyClass = 'dependent-color';
+        if (independentVariables.includes(key)) {
+            keyClass = 'independent-color';
+        } else if (dependentVariables.includes(key)) {
+            keyClass = 'dependent-color';
+        }
+
+        let row = `<tr class="${rowClass}"><td class="${keyClass}">${key}</td>`;
+        for (let i = 0; i < 31; i++) {
+            row += `<td>${data[i][key] || '0'}</td>`;
+        }
+        row += `</tr>`;
+        return row;
     }
-
-    let row = `<tr class="${rowClass}"><td class="${keyClass}">${key}</td>`;
-    for (let i = 0; i < 31; i++) {
-        row += `<td>${data[i][key] || '0'}</td>`;
-    }
-    row += `</tr>`;
-    return row;
-}
-
 });

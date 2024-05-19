@@ -1,23 +1,23 @@
-/* Общие стили для центрирования и визуального оформления */
+/* Общие стили */
 .header-container {
     text-align: center;
     margin-top: 20px;
 }
 
 .input-container {
-    max-width: 20%; /* Устанавливает максимальную ширину контейнера ввода */
-    margin-left: 10px; /* Выравнивает контейнер ввода слева */
-    position: relative; /* Позволяет абсолютно позиционированным элементам внутри быть относительно этого контейнера */
+    max-width: 20%;
+    margin-left: 10px;
+    position: relative;
 }
 
 .input-group {
-    width: 100%; /* Заполняет полную ширину своего контейнера */
-    margin-bottom: 0; /* Убирает отступ снизу */
+    width: 100%;
+    margin-bottom: 0;
 }
 
-/* Стили для выпадающего списка результатов */
+/* Выпадающий список */
 #results {
-    display: none; /* Скрывается по умолчанию */
+    display: none;
     position: absolute;
     width: 100%;
     top: 100%;
@@ -27,44 +27,43 @@
     background-color: white;
     border: 1px solid #ccc;
     box-shadow: 0px 4px 6px rgba(0,0,0,0.1);
-    z-index: 1000; /* Гарантирует, что выпадающий список будет поверх других элементов */
+    z-index: 1000;
 }
 
 .list-group-item {
-    text-align: left; /* Выравнивает текст элементов списка по левому краю */
-    padding: 10px; /* Добавляет внутренние отступы */
-    width: 100%; /* Заполняет полную ширину своего контейнера */
-    cursor: pointer; /* Указывает, что элемент можно нажать */
+    text-align: left;
+    padding: 10px;
+    width: 100%;
+    cursor: pointer;
 }
 
 .file-select-title {
-    margin-left: 10px; /* Добавляет отступ слева для заголовка */
-    margin-bottom: 5px; /* Добавляет небольшой отступ снизу */
-    font-size: 16px; /* Устанавливает размер шрифта */
-    font-weight: bold; /* Делает текст заголовка жирным */
+    margin-left: 10px;
+    margin-bottom: 5px;
+    font-size: 16px;
+    font-weight: bold;
 }
 
-/* Стилизация элемента статуса */
+/* Статус */
 #status {
-    position: absolute; /* Абсолютное позиционирование внутри контейнера .input-container */
-    top: 100%; /* Позиционирует непосредственно под input-элементом */
-    left: 3%; /* Небольшой отступ слева для выравнивания */
-    width: 94%; /* Ширина меньше, чем у input-container для визуального разделения */
-    color: red; /* Цвет текста для сообщений об ошибке */
-    font-size: small; /* Меньший размер шрифта для статусных сообщений */
-    margin-top: -5px; /* Небольшой отрицательный отступ сверху для компактности */
-    z-index: 10; /* Ниже, чем список результатов, чтобы текст был под ним */
+    position: absolute;
+    top: 100%;
+    left: 3%;
+    width: 94%;
+    color: red;
+    font-size: small;
+    margin-top: -5px;
+    z-index: 10;
 }
 
-/* Стилизация контейнера таблицы */
+/* Таблица */
 #tableContainer {
-    width: calc(100% - 40px); /* Ширина меньше на 40px, чем 100% для включения внешних отступов */
+    width: calc(100% - 40px);
     margin-left: 20px;
     margin-right: 20px;
-    display: none; /* Скрыт до активации */
+    display: none;
 }
 
-/* Стилизация заголовка таблицы */
 #tableTitle {
     text-align: left;
     position: relative;
@@ -74,73 +73,54 @@
 }
 
 #toggleButton {
-    background-color: #0d6efd; /* Синий фон, как у Bootstrap кнопок */
+    background-color: #0d6efd;
     border-color: #0d6efd;
     color: white;
 }
 
 table .independent-color {
-    background-color: #0d6efd; /* Синий цвет для независимых переменных */
-    color: white
+    background-color: #0d6efd;
+    color: white;
 }
 
 table .dependent-color {
-    background-color: #fe807c; /* Светло-красный цвет для зависимых переменных */
+    background-color: #fe807c;
 }
 
 #ellipsisRow td {
-    font-size: 40px !important; /* Принудительное применение размера шрифта */
+    font-size: 40px !important;
     width: 100%;
     text-align: center;
 }
 
-/* Стили таблицы */
+/* Общие стили таблицы */
 table {
-    width: 100%; /* Ширина таблицы соответствует ширине контейнера */
-    border-collapse: collapse; /* Убирает двойные границы между ячейками */
-    margin-top: 10px; /* Отступ сверху */
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
 }
 
 th, td {
-    border: 1px solid #ccc; /* Оформление границ ячеек */
-    padding: 8px; /* Отступы внутри ячеек */
-    text-align: left; /* Выравнивание текста по левому краю */
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
 }
 
 th {
-    background-color: #f2f2f2; /* Цвет фона для заголовков таблицы */
+    background-color: #f2f2f2;
 }
 
-
-/* Стилизация таблицы для полной ширины с горизонтальным скроллом */
+/* Горизонтальный скролл таблицы */
 #dataTable {
-    overflow-x: auto;  // Включает горизонтальную прокрутку
-    white-space: nowrap;  // Убирает перенос строк внутри таблицы
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;  // Убирает двойные границы между ячейками
-}
-
-th, td {
-    padding: 8px;
-    border: 1px solid #ccc;
-    text-align: center;
-    min-width: 50px;  // Минимальная ширина каждой ячейки
-    max-width: 150px;  // Максимальная ширина каждой ячейки
-    overflow: hidden;  // Прячет текст, выходящий за границы ячейки
-    text-overflow: ellipsis;  // Добавляет многоточие, если текст не помещается
+    overflow-x: auto;
+    white-space: nowrap;
 }
 
 .hiddenRow {
-    display: none;  // По умолчанию скрытые строки
+    display: none;
 }
 
-
-
-
-
+/* Контейнер данных */
 #dataAnalysisContainers {
     margin-top: 20px;
     text-align: center;
@@ -149,6 +129,7 @@ th, td {
     justify-content: space-between;
 }
 
+/* Формула регрессии */
 #regressionFormulaContainer {
     background-color: #fff;
     padding: 10px;
@@ -178,6 +159,7 @@ th, td {
     align-items: flex-start;
 }
 
+/* Половинный контейнер */
 .col-md-6 {
     background-color: #fff;
     padding: 10px;
@@ -212,20 +194,20 @@ th, td {
     height: 100%;
 }
 
+/* Важность признаков */
 #coefficientsList {
-    max-height: 400px; /* Ограничиваем высоту блока */
-    overflow-y: auto; /* Добавляем вертикальную прокрутку, если контент превышает высоту блока */
-    margin-top: 0; /* Убираем ненужный отступ */
-    padding-top: 0; /* Убираем ненужный внутренний отступ */
+    max-height: 400px;
+    overflow-y: auto;
+    margin-top: 0;
+    padding-top: 0;
 }
 
-/* Стилизация таблицы */
 #featureImportancesTable {
     width: 100%;
     border-collapse: collapse;
 }
 
-/* Фиксированные заголовки таблицы */
+/* Фиксированные заголовки */
 #coefficientsList thead {
     position: sticky;
     top: 0;
@@ -233,7 +215,7 @@ th, td {
     z-index: 1;
 }
 
-/* Стилизация ячеек */
+/* Ячейки таблицы */
 #coefficientsList th, #coefficientsList td {
     border: 1px solid #ddd;
     padding: 8px;
@@ -245,17 +227,13 @@ th, td {
     font-weight: bold;
 }
 
-
-
-
-
-
+/* Прогноз */
 .predictiontable-container {
     max-height: 300px;
     overflow-y: auto;
 }
 
-/* Новый стиль для контейнера ввода и кнопки */
+/* Контейнер ввода прогноза */
 #predictionInputContainer {
     display: flex;
     align-items: center;
@@ -279,5 +257,3 @@ th, td {
     text-align: left;
     margin: 20px 0 0 10px;
 }
-
-
