@@ -1,11 +1,26 @@
-# Путь к файлам
-DIRECTORY_LIST_ESP = 'D:\\App\\PyCharm Community Edition 2024.1.1\\PycharmProjects\\DT\\Excel'
-# Зависимые и Независимые переменные
-DEPENDENT_VARIABLES = ['Тдвиг ТМ']
-#INDEPENDENT_VARIABLES = ['TрабТМ', 'Qн', 'Обв', 'КВЧ', 'Нд', 'Рбуф', 'Рлин', 'Рзатр', 'Рприем', 'РэцнТМ', 'ТемпПЭД', 'Qж', 'Fвращ', 'Ток']
+import os
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+# Папка с исходными файлами Excel/CSV
+EXCEL_DIR = os.path.join(BASE_DIR, 'Excel')
 
-"""
+# Зависимая переменная (целевая)
 DEPENDENT_VARIABLES = ['Тдвиг ТМ']
-"""
-INDEPENDENT_VARIABLES = ['Tраб (ТМ)', 'Qн', 'Обв', 'КВЧ', 'Нд', 'Рбуф', 'Рлин', 'Рзатр', 'Рприем', 'Рэцн ТМ', 'Темп. ПЭД', 'Qж', 'Fвращ', 'Ток']
+
+# Независимые переменные (признаки)
+INDEPENDENT_VARIABLES = [
+    'Tраб (ТМ)',
+    'Qн',
+    'Обв',
+    'КВЧ',
+    'Нд',
+    'Рбуф',
+    'Рлин',
+    'Рзатр',
+    'Рприем',
+    'Рэцн ТМ',
+    'Темп. ПЭД',
+    'Qж',
+    'Fвращ',
+    'Ток',
+]
