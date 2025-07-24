@@ -1,83 +1,26 @@
-/* Общие стили */
-.header-container {
-    text-align: center;
-    margin-top: 20px;
-}
-
-.input-container {
-    max-width: 20%;
-    margin-left: 10px;
-    position: relative;
-}
-
-.input-group {
-    width: 100%;
-    margin-bottom: 0;
-}
-
-/* Выпадающий список */
+/* Оформление выпадающего списка результатов */
 #results {
     display: none;
     position: absolute;
     width: 100%;
-    top: 100%;
-    left: 0;
     max-height: 200px;
     overflow-y: auto;
-    background-color: white;
+    background-color: #fff;
     border: 1px solid #ccc;
-    box-shadow: 0px 4px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     z-index: 1000;
 }
 
 .list-group-item {
-    text-align: left;
-    padding: 10px;
-    width: 100%;
     cursor: pointer;
 }
 
-.file-select-title {
-    margin-left: 10px;
-    margin-bottom: 5px;
-    font-size: 16px;
-    font-weight: bold;
-}
-
-/* Статус */
-#status {
-    position: absolute;
-    top: 100%;
-    left: 3%;
-    width: 94%;
-    color: red;
-    font-size: small;
-    margin-top: -5px;
-    z-index: 10;
-}
-
-/* Таблица */
-#tableContainer {
-    width: calc(100% - 40px);
-    margin-left: 20px;
-    margin-right: 20px;
+/* Скрытые строки в таблице */
+.hiddenRow {
     display: none;
 }
 
-#tableTitle {
-    text-align: left;
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-#toggleButton {
-    background-color: #0d6efd;
-    border-color: #0d6efd;
-    color: white;
-}
-
+/* Цветовая маркировка зависимых и независимых переменных */
 table .independent-color {
     background-color: #0d6efd;
     color: white;
@@ -85,175 +28,33 @@ table .independent-color {
 
 table .dependent-color {
     background-color: #fe807c;
+    color: white;
 }
 
-#ellipsisRow td {
-    font-size: 40px !important;
-    width: 100%;
-    text-align: center;
-}
-
-/* Общие стили таблицы */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-}
-
-th, td {
-    border: 1px solid #ccc;
-    padding: 8px;
-    text-align: left;
-}
-
-th {
-    background-color: #f2f2f2;
-}
-
-/* Горизонтальный скролл таблицы */
-#dataTable {
-    overflow-x: auto;
-    white-space: nowrap;
-}
-
-.hiddenRow {
-    display: none;
-}
-
-/* Контейнер данных */
-#dataAnalysisContainers {
-    margin-top: 20px;
-    text-align: center;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
-
-/* Формула регрессии */
+/* Блок с формулой регрессии */
 #regressionFormulaContainer {
-    background-color: #fff;
-    padding: 10px;
-    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.2);
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.2);
     border-radius: 5px;
-    margin-bottom: 10px;
-    font-size: 16px;
-    color: #000;
-    text-align: left;
-    width: 100%;
-}
-
-#regressionFormulaHeader {
-    margin: 0 0 10px 0;
-    font-size: 20px;
-    font-weight: bold;
-    text-align: left;
-}
-
-#regressionFormula {
+    padding: 10px;
     overflow-x: auto;
-    overflow-y: hidden;
+}
+
+.formula-output {
+    font-family: 'Courier New', monospace;
     white-space: nowrap;
-    margin: 0;
-    padding: 0;
-    display: inline-block;
-    align-items: flex-start;
 }
 
-/* Половинный контейнер */
-.col-md-6 {
-    background-color: #fff;
-    padding: 10px;
-    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.2);
-    border-radius: 5px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    width: calc(50% - 20px);
-    vertical-align: top;
-    margin-bottom: 20px;
-    text-align: center;
-    height: auto;
-    margin-top: 0;
-}
-
-.content-container {
-    position: relative;
-    width: 100%;
-    padding-top: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
+/* Канвас для индикатора */
 #gaugeChart {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    width: 100% !important;
+    height: 100% !important;
 }
 
-/* Важность признаков */
-#coefficientsList {
-    max-height: 400px;
-    overflow-y: auto;
-    margin-top: 0;
-    padding-top: 0;
+.table-responsive {
+    overflow-x: auto;
 }
 
-#featureImportancesTable {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-/* Фиксированные заголовки */
-#coefficientsList thead {
-    position: sticky;
-    top: 0;
-    background-color: #fff;
-    z-index: 1;
-}
-
-/* Ячейки таблицы */
-#coefficientsList th, #coefficientsList td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-}
-
-#coefficientsList th {
-    background-color: #f2f2f2;
-    font-weight: bold;
-}
-
-/* Прогноз */
-.predictiontable-container {
-    max-height: 300px;
-    overflow-y: auto;
-}
-
-/* Контейнер ввода прогноза */
 #predictionInputContainer {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
     margin-top: 20px;
-    width: 100%;
-    padding-left: 10px;
-}
-
-#daysInput {
-    width: 200px;
-    margin-right: 10px;
-}
-
-#getPredictionButton {
-    width: 200px;
-}
-
-#predictionTableContainer {
-    width: 300px;
-    text-align: left;
-    margin: 20px 0 0 10px;
 }
