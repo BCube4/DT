@@ -1,97 +1,108 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <title>File Search</title>
+    <meta charset="UTF‑8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Анализ данных по оборудованию</title>
+    <!-- Bootstrap CSS for layout and basic styling -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- Custom styles -->
     <link rel="stylesheet" href="/static/css/styles.css">
-    <link rel="icon" type="image/png" href="/images/N4M1pmoeTGrcheoVbW3E4f-6hYvoQ7pCEQ1gaKFdj5gxO3k4yWDBLK3wRLE_8NyjA_8r_fV3rCyN1e6TZ39tRXWAI-osWVUyjsf2QWVuwePi58aa9Bm-HwtPPGSwVdeTZDhHU7gR5RDalmyURd2W81utfeTqM-kX4w.png">
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <!-- MathJax for pretty typesetting of the regression formula -->
+    <script id="MathJax-script" async
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <!-- jQuery and Chart.js -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="/static/js/search.js"></script>
-</head>
-<body>
-
     <script>
+        // Expose variable names from the Flask context to the client side
         const dependentVariables = {{ dependentVariables | tojson | safe }};
         const independentVariables = {{ independentVariables | tojson | safe }};
     </script>
+</head>
+<body>
+<div class="container-fluid py-3">
+    <header class="text-center mb-4">
+        <h1 class="h3">Инструменты интеллектуального анализа данных для оценки состояния
+            оборудования</h1>
+    </header>
 
-    <div class="header-container">
-        <h1>Инструменты интеллектуальный анализ данных для оценки состояния оборудования</h1>
-    </div>
-    <div class="input-container">
-        <div class="file-select-title">Выберите файл:</div>
-        <div class="input-group mb-3">
-            <input type="text" id="searchBox" class="form-control" placeholder="Введите название файла...">
-            <button id="loadButton" class="btn btn-primary">Загрузить</button>
+    <!-- File selection -->
+    <section class="row g-3 align-items-start">
+        <div class="col-sm-4">
+            <label for="searchBox" class="form-label fw-bold">Выберите файл:</label>
+            <div class="input-group">
+                <input type="text" id="searchBox" class="form-control" placeholder="Введите название файла...">
+                <button id="loadButton" class="btn btn-primary">Загрузить</button>
+            </div>
+            <div id="results" class="list-group"></div>
+            <small id="status" class="text-danger"></small>
         </div>
-        <div id="results" class="list-group"></div>
-        <div id="status" style="margin-top: 5px;"></div>
-    </div>
-    <div id="tableContainer" style="margin-top: 20px; display: none;">
-        <h3 id="tableTitle"></h3>
-        <div id="dataTable" style="overflow-x: auto;"></div>
-    </div>
-    <script src="/static/js/quarterly_table.js"></script>
+    </section>
 
-    <div id="dataAnalysisContainers" style="display: none;">
-        <div class="container mt-4">
-            <div class="row">
-                <!-- Контейнер для формулы регрессии -->
+    <!-- Data table -->
+    <section id="tableContainer" class="mt-4" style="display:none;">
+        <h3 id="tableTitle"></h3>
+        <div id="dataTable" class="table-responsive"></div>
+    </section>
+
+    <!-- Analysis containers -->
+    <section id="dataAnalysisContainers" class="mt-4" style="display:none;">
+        <div class="row g-4">
+            <!-- Regression formula -->
+            <div class="col-12">
                 <div id="regressionFormulaContainer">
-                    <h2>Формула регрессии</h2>
-                    <div class="content-container" id="regressionFormula" style="font-family: 'KaTeX_Main', serif;"></div>
+                    <h4 class="mb-2">Формула регрессии</h4>
+                    <div id="regressionFormula" class="formula-output"></div>
                 </div>
-                <!-- Контейнер для спидометра статистики -->
-                <div class="col-md-6" id="gaugeContainer">
-                    <h2>Динамический статистический индикатор</h2>
-                    <div class="content-container">
-                        <canvas id="gaugeChart"></canvas>
-                    </div>
+            </div>
+            <!-- Gauge chart -->
+            <div class="col-md-6">
+                <h4 class="text-center">Динамический статистический индикатор</h4>
+                <div class="ratio ratio-1x1 border rounded d-flex align-items-center justify-content-center">
+                    <canvas id="gaugeChart"></canvas>
                 </div>
-                <!-- Контейнер для списка коэффициентов важности -->
-                <div class="col-md-6" id="coefficientsContainer">
-                    <h2>Анализ значимости факторов</h2>
-                    <div class="content-container" id="coefficientsList"></div>
-                    <table id="featureImportancesTable" class="table table-scroll">
+            </div>
+            <!-- Feature importances -->
+            <div class="col-md-6">
+                <h4 class="text-center">Анализ значимости факторов</h4>
+                <div class="table-responsive">
+                    <table id="featureImportancesTable" class="table table-striped">
                         <thead>
-                            <tr><th>Признак</th><th>Важность</th></tr>
+                        <tr><th>Признак</th><th>Важность</th></tr>
                         </thead>
                         <tbody></tbody>
                     </table>
                 </div>
             </div>
+            <!-- Prediction inputs -->
+            <div class="col-12" id="predictionInputContainer" style="display:none;">
+                <div class="input-group mb-3">
+                    <input type="number" id="daysInput" class="form-control" min="1" step="1"
+                           placeholder="Введите количество дней для прогноза"/>
+                    <button id="getPredictionButton" class="btn btn-primary">Получить прогноз</button>
+                </div>
+            </div>
+            <!-- Prediction table -->
+            <div class="col-12" id="predictionTableContainer" style="display:none;">
+                <h4 id="predictionTableTitle"></h4>
+                <div class="table-responsive">
+                    <table id="predictionTable" class="table table-striped">
+                        <thead><tr><th>Дата</th><th>Значение</th></tr></thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-        <!-- Контейнер для ввода количества дней и кнопки получения прогноза -->
-    <!-- Контейнер для ввода количества дней и кнопки получения прогноза -->
-    <div id="predictionInputContainer">
-        <input type="number" id="daysInput" class="form-control" min="1" step="1" placeholder="Введите количество дней" />
-        <button id="getPredictionButton" class="btn btn-primary">Получить прогноз</button>
-    </div>
-    <!-- Контейнер для таблицы прогноза -->
-    <div id="predictionTableContainer" style="display: none; margin-top: 20px;">
-        <h3 id="predictionTableTitle"></h3>
-        <div class="predictiontable-container">
-            <table id="predictionTable" class="table table-scroll">
-                <thead>
-                    <tr><th>Дата</th><th>Значение</th></tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
-    </div>
+    </section>
 </div>
 
-
-
-    <!-- Вставка JavaScript файлов -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="/static/js/regression_formula.js" ></script>
-    <script src="/static/js/gauge_chart.js" ></script>
-    <script src="/static/js/feature_importances.js" ></script>
-    <script src="/static/js/prediction.js"></script>
+<!-- Include JavaScript functionality at the end of the document -->
+<script src="/static/js/search.js"></script>
+<script src="/static/js/quarterly_table.js"></script>
+<script src="/static/js/regression_formula.js"></script>
+<script src="/static/js/gauge_chart.js"></script>
+<script src="/static/js/feature_importances.js"></script>
+<script src="/static/js/prediction.js"></script>
 </body>
 </html>
