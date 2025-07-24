@@ -1,51 +1,41 @@
+from __future__ import annotations
+
 import pandas as pd
+from typing import Any, Dict
 
-def transform_excel_data(input_file_path):
+
+def transform_excel_data(input_file_path: str) -> pd.DataFrame:
     """
-    Преобразует данные из Excel файла, группируя значения по состоянию и размещая их в отдельные колонки,
-    сохраняя оригинальные названия столбцов.
-
-    Параметры:
-    input_file_path (str): Путь к входному Excel файлу.
-
-    Возвращает:
-    pd.DataFrame: Преобразованный DataFrame.
+    Поворачивает Excel‑таблицу с колонкой «Состояние» в формат «один столбец = одна переменная». Пропущенные значения заполняются нулями.
     """
-    df = pd.read_excel(input_file_path)  # Чтение данных из Excel файла
+    df = pd.read_excel(input_file_path, sheet_name=0)
+    # удаляем первый безымянный столбец
+    if df.columns.size > 0 and (df.columns[0] == 'Unnamed: 0' or df.columns[0].startswith('Unnamed')):
+        df = df.drop(columns=[df.columns[0]])
+    if 'Состояние' in df.columns:
+        df_cleaned = df.drop(columns=[col for col in df.columns if col == df.columns[0] and col != 'Состояние'])
+        transformed = pd.DataFrame()
+        for state in df_cleaned['Состояние'].dropna().unique():
+            state_df = df_cleaned[df_cleaned['Состояние'] == state].drop('Состояние', axis=1)
+            values = state_df.values.flatten()
+            values = values[pd.notna(values)]
+            transformed[state] = pd.Series(values)
+        transformed = transformed.fillna(0)
+        return transformed
+    else:
+        return df.fillna(0)
 
-    # Подготовка DataFrame: удаляем первую колонку, если она не нужна, и сохраняем остальные названия
-    df_cleaned = df.drop(columns=[df.columns[0]])
 
-    transformed_df = pd.DataFrame()
-
-    # Обходим каждое уникальное состояние
-    for state in df_cleaned['Состояние'].unique():
-        # Выбираем данные по текущему состоянию и удаляем столбец 'Состояние'
-        state_df = df_cleaned[df_cleaned['Состояние'] == state].drop('Состояние', axis=1)
-        # Преобразуем DataFrame в список, удаляем NaN значения
-        numbers_list = state_df.values.flatten()
-        numbers_list = numbers_list[~pd.isnull(numbers_list)]
-        # Создаем новый столбец для каждого состояния с оригинальными названиями столбцов
-        transformed_df[state] = pd.Series(numbers_list)
-
-    # Заполняем пропуски пустыми строками
-    transformed_df = transformed_df.fillna('')
-    return transformed_df
-
-def process_file(filename):
+def process_file(file_path: str) -> Dict[str, Any]:
     """
-    Обрабатывает указанный файл, выполняя преобразование данных и возвращая результат.
-
-    Параметры:
-    filename (str): Имя файла для обработки.
-
-    Возвращает:
-    dict: Результат обработки файла, включающий статус и данные или сообщение об ошибке.
+    Чтение CSV или Excel и возврат данных в виде списка словарей.
     """
     try:
-        transformed_data = transform_excel_data(filename)  # Преобразование данных из Excel файла
-        # Преобразование DataFrame в список словарей
-        data_list = transformed_data.to_dict(orient='records')
-        return {"status": "success", "data": data_list}  # Успешная обработка
-    except Exception as e:
-        return {"status": "error", "message": str(e)}  # Ошибка при обработке
+        if file_path.lower().endswith('.csv'):
+            df = pd.read_csv(file_path).fillna(0)
+        else:
+            df = transform_excel_data(file_path)
+        data_list = df.to_dict(orient='records')
+        return {'status': 'success', 'data': data_list}
+    except Exception as exc:
+        return {'status': 'error', 'message': str(exc)}
