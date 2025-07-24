@@ -1,119 +1,115 @@
-from flask import Flask, render_template, request, jsonify
+from __future__ import annotations
+
+import json
+import os
+from typing import Dict, Any
+
 import pandas as pd
+from flask import Flask, render_template, request, jsonify
 from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
+
+from config import EXCEL_DIR, DEPENDENT_VARIABLES, INDEPENDENT_VARIABLES
 from services.search_service import perform_search
 from services.validation_service import validate_and_process
-import os
-import json
-from config import DIRECTORY_LIST_ESP, DEPENDENT_VARIABLES, INDEPENDENT_VARIABLES
 
-app = Flask(__name__)
-app.config["SECRET_KEY"] = "your_secret_key_here"
 
-# Главная страница
-@app.route('/')
-def index():
-    return render_template('index.html',
-                           dependentVariables=DEPENDENT_VARIABLES,
-                           independentVariables=INDEPENDENT_VARIABLES)
+def create_app() -> Flask:
+    """Factory function to create and configure the Flask application."""
 
-# Поиск файлов по запросу
-@app.route('/search', methods=['POST'])
-def search():
-    query = request.form.get('query', '')
-    files = perform_search(query, DIRECTORY_LIST_ESP)
-    return jsonify(files)
+    app = Flask(__name__)
+    app.config['SECRET_KEY'] = 'replace_this_with_a_random_value'
 
-# Валидация и обработка файла
-@app.route('/validate', methods=['POST'])
-def validate():
-    filename = request.form.get('filename', '')
-    response = validate_and_process(filename, DIRECTORY_LIST_ESP)
-    if response.get("status") == "success":
-        data_directory = 'temp_data'
-        if not os.path.exists(data_directory):
-            os.makedirs(data_directory)  # Создаем директорию, если она не существует
-        data_file = os.path.join(data_directory, filename)
-        with open(data_file, 'w') as f:
-            json.dump(response['data'], f)
-        return jsonify(response)
-    else:
-        return jsonify({"status": "error", "message": "Validation failed"})
+    @app.route('/')
+    def index() -> str:
+        return render_template(
+            'index.html',
+            dependentVariables=DEPENDENT_VARIABLES,
+            independentVariables=INDEPENDENT_VARIABLES
+        )
 
-# Анализ данных и предсказание
-@app.route('/analyze', methods=['POST'])
-def analyze_data():
-    filename = request.form.get('filename')
-    if not filename:
-        return jsonify({"status": "error", "message": "Filename is required"})
+    @app.route('/search', methods=['POST'])
+    def search() -> Any:
+        query: str = request.form.get('query', '').strip()
+        files = perform_search(query, EXCEL_DIR)
+        return jsonify(files)
 
-    days_ahead = int(request.form.get('days_ahead', 1))  # Получаем days_ahead из формы запроса POST
-    data_directory = 'temp_data'
-    data_file = os.path.join(data_directory, filename)
-    try:
-        with open(data_file, 'r') as f:
-            data = json.load(f)
-    except FileNotFoundError:
-        return jsonify({"status": "error", "message": "Data not found"})
+    @app.route('/validate', methods=['POST'])
+    def validate() -> Any:
+        filename: str = request.form.get('filename', '').strip()
+        if not filename:
+            return jsonify({'status': 'error', 'message': 'Имя файла не указано'})
+        result = validate_and_process(filename, EXCEL_DIR)
+        if result['status'] == 'success':
+            data_dir = os.path.join(os.path.dirname(__file__), 'temp_data')
+            os.makedirs(data_dir, exist_ok=True)
+            json_path = os.path.join(data_dir, f"{filename}.json")
+            with open(json_path, 'w', encoding='utf-8') as f:
+                json.dump(result['data'], f, ensure_ascii=False)
+            return jsonify({
+                'status': 'success',
+                'message': 'Файл успешно загружен',
+                'data': result['data']
+            })
+        return jsonify({'status': 'error', 'message': result.get('message', 'Ошибка обработки')})
 
-    df = pd.DataFrame(data)
-    if not all(var in df.columns for var in DEPENDENT_VARIABLES + INDEPENDENT_VARIABLES):
-        return jsonify({"status": "error", "message": "Data does not contain necessary columns"})
+    @app.route('/analyze', methods=['POST'])
+    def analyze() -> Any:
+        filename: str = request.form.get('filename', '').strip()
+        if not filename:
+            return jsonify({'status': 'error', 'message': 'Имя файла не указано'})
+        try:
+            days_ahead = int(request.form.get('days_ahead', 1))
+            if days_ahead <= 0:
+                raise ValueError()
+        except ValueError:
+            return jsonify({'status': 'error', 'message': 'Неверное значение days_ahead'})
+        data_dir = os.path.join(os.path.dirname(__file__), 'temp_data')
+        json_path = os.path.join(data_dir, f"{filename}.json")
+        if not os.path.exists(json_path):
+            return jsonify({'status': 'error', 'message': 'Данные не найдены'})
+        with open(json_path, 'r', encoding='utf-8') as f:
+            records = json.load(f)
+        df = pd.DataFrame(records)
+        missing_cols = [c for c in DEPENDENT_VARIABLES + INDEPENDENT_VARIABLES if c not in df.columns]
+        if missing_cols:
+            return jsonify({'status': 'error', 'message': f'Отсутствуют колонки: {", ".join(missing_cols)}'})
+        X = df[INDEPENDENT_VARIABLES]
+        y = df[DEPENDENT_VARIABLES[0]]
+        lr_model = LinearRegression()
+        lr_model.fit(X, y)
+        coefficients: Dict[str, float] = dict(zip(INDEPENDENT_VARIABLES, lr_model.coef_))
+        intercept: float = float(lr_model.intercept_)
+        rf_model = RandomForestRegressor(random_state=42)
+        rf_model.fit(X, y)
+        feature_importances: Dict[str, float] = dict(zip(INDEPENDENT_VARIABLES, rf_model.feature_importances_))
+        gb_model = GradientBoostingRegressor(random_state=42)
+        gb_model.fit(X, y)
+        last_features = X.iloc[-1].copy()
+        predictions = []
+        current_features = last_features.copy()
+        for _ in range(days_ahead):
+            next_val = float(gb_model.predict([current_features])[0])
+            predictions.append(next_val)
+            current_features = current_features
+        mean_value = float(y.mean())
+        std_dev = float(y.std()) if len(y) > 1 else 0.0
+        last_day_independent_vars: Dict[str, float] = last_features.to_dict()
+        last_day_dependent_vars: Dict[str, float] = {DEPENDENT_VARIABLES[0]: float(y.iloc[-1])}
+        return jsonify({
+            'status': 'success',
+            'coefficients': coefficients,
+            'intercept': intercept,
+            'feature_importances': feature_importances,
+            'predictions': predictions,
+            'mean': mean_value,
+            'std_dev': std_dev,
+            'last_day_independent_vars': last_day_independent_vars,
+            'last_day_dependent_vars': last_day_dependent_vars
+        })
 
-    X = df[INDEPENDENT_VARIABLES]
-    y = df[DEPENDENT_VARIABLES[0]]
+    return app
 
-    # Обучение линейной регрессии
-    lr_model = LinearRegression()
-    lr_model.fit(X, y)
-    coefficients = dict(zip(X.columns, lr_model.coef_))
-
-    # Обучение случайного леса
-    rf_model = RandomForestRegressor()
-    rf_model.fit(X, y)
-    feature_importances = dict(zip(X.columns, rf_model.feature_importances_))
-
-    # Обучение градиентного бустинга
-    gb_model = GradientBoostingRegressor()
-    gb_model.fit(X, y)
-
-    # Получение последних данных для предсказаний
-    X_pred = X.iloc[-1:].copy()
-    predictions = []
-
-    for _ in range(days_ahead):
-        pred = gb_model.predict(X_pred)[0]
-        predictions.append(pred)
-
-        # Создание новых данных для следующего дня предсказания
-        new_data = X_pred.iloc[-1:].copy()
-
-        # Обновление зависимой переменной с предсказанным значением
-        new_data[DEPENDENT_VARIABLES[0]] = pred
-
-        # Обновление временных признаков или любых других зависимостей, если применимо
-        if 'date' in new_data.columns:
-            new_data['date'] = pd.to_datetime(new_data['date']) + pd.DateOffset(days=1)
-
-        X_pred = pd.concat([X_pred, new_data[INDEPENDENT_VARIABLES]], ignore_index=True)
-
-    mean = y.mean()
-    std_dev = y.std()
-    first_row_data = df.iloc[0]
-    last_day_independent_vars = {var: first_row_data[var] for var in INDEPENDENT_VARIABLES}
-    last_day_dependent_vars = {var: first_row_data[var] for var in DEPENDENT_VARIABLES}
-
-    return jsonify({
-        "status": "success",
-        "coefficients": coefficients,
-        "feature_importances": feature_importances,
-        "predictions": predictions,  # Предсказания на нужное количество дней
-        "mean": mean,
-        "std_dev": std_dev,
-        "last_day_independent_vars": last_day_independent_vars,
-        "last_day_dependent_vars": last_day_dependent_vars
-    })
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    create_app().run(debug=True)
