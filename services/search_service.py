@@ -1,17 +1,17 @@
 import os
+from typing import List
 
-def perform_search(query, directory):
-    """
-    Выполняет поиск файлов в указанной директории, соответствующих запросу и допустимым расширениям.
+ALLOWED_EXTENSIONS = {'.csv', '.xlsx', '.xls', '.xlsm'}
 
-    Параметры:
-    query (str): Строка запроса для поиска файлов.
-    directory (str): Директория, в которой будет выполняться поиск.
-
-    Возвращает:
-    list: Список файлов, соответствующих критериям поиска.
-    """
-    valid_extensions = ('.xlsx', '.xls', '.xlsm', '.xlsb', '.xml', '.xltx', '.csv')  # Допустимые расширения файлов
-    files = [f for f in os.listdir(directory)
-             if f.endswith(valid_extensions) and f.lower().startswith(query.lower())]  # Фильтрация файлов по запросу и расширениям
-    return files
+def perform_search(query: str, directory: str) -> List[str]:
+    """Поиск файлов по префиксу в указанной директории."""
+    results: List[str] = []
+    if not os.path.isdir(directory):
+        return results
+    query_lower = query.lower()
+    for name in os.listdir(directory):
+        ext = os.path.splitext(name)[1].lower()
+        if ext in ALLOWED_EXTENSIONS:
+            if not query_lower or name.lower().startswith(query_lower):
+                results.append(name)
+    return results
